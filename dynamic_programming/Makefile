@@ -1,8 +1,8 @@
 .PHONY: all clean
 CC=gcc
 FLAG=-g -Wall
-EXECFILE= fibonacci weighted_interval_scheduling shorteset_path
-SUBDIR=knapsack
+EXECFILE= fibonacci weighted_interval_scheduling
+SUBDIR=knapsack shortest_path
 all: $(EXECFILE) sub
 clean:
 	rm $(EXECFILE)

@@ -1,5 +1,7 @@
 /**
   Bellman Ford algorithm
+  In this implementation, we only consider simple path (no cycle), 
+  we don't consider negative cycle
   OPT(i, v) =  0										if i == 0 && v == t
                infinity										if i == 0 && v != 0
 	       min(OPT(i - 1, v), min(for edge (v, w) exists: c(v, w) + OPT(i - 1, w)))		otherwise
