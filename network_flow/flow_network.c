@@ -11,6 +11,26 @@
 
   The value of the maxflow equals the value of the min cut
   value of cut: cut the graph to separate source and sink, adding the capacities of forward edges
+
+  Running Time: O(mC)
+    while loop: C iteration (C: total capacity out of node 0)
+    Augmentation: O(m) (m: # of edges)
+
+  If choosing path in a wrong way, performence would be bad
+  Example:
+                (100)    (100)
+               -----> a ---->--
+              /       |        \
+             s        | (1)     t
+              \       V        /
+               -----> b --->---
+                (100)    (100)
+  Solution:
+    Choose augmenting paths with:
+      Max bottleneck capacity
+      Fewest number of edges
+      Sufficiently large bottleneck capacity
+        delta-scaling: look for paths with bottleneck capacity of at least delta
 */
 #include <stdio.h>
 #include <stdlib.h>
