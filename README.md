@@ -20,7 +20,7 @@ greedy_algorithm/
 | -- minimum_spanning_tree/  
 |    | -- kruskal_algorithm/  
 |    |    | -- kruskal_algorithm.c  
-|    |--prim_algorithm/  
+|    | -- prim_algorithm/  
 |    |    | -- minimum_spanning_tree.c  
 |    |    | -- heap.c  
 | -- shortest_path/  
