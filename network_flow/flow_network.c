@@ -7,6 +7,8 @@
       Repeat until get stuck
     Augment flow: if there's a edge s->t in path with flow amount F, add a reverse edge t->s with remained capacity F to let other paths can flow back
 
+  It's easier to imagine by consider edges as water pipes
+
   The value of the maxflow equals the value of the min cut
   value of cut: cut the graph to separate source and sink, adding the capacities of forward edges
 */
@@ -34,6 +36,7 @@ struct Path_collection {
 };
 static struct Node *nodes[6]; // source: node 0, sink: node 5
 static struct Path_collection *path_collection = NULL;
+
 struct Node *create_node(int id) {
 	struct Node *node = malloc(sizeof(struct Node));
 	node->id = id;
@@ -144,6 +147,7 @@ int find_path(struct Node *node, struct Path **path) {
 	while (out) {
 		if (out->node->explored == 0 && out->capacity - out->used > 0) {
 			if (out->node->id == 5) {
+				// Goal
 				p = malloc(sizeof(struct Path));
 				p->edge = out;
 				p->next = *path;
@@ -169,11 +173,13 @@ void ford_fulkerson() {
 	bottleneck = find_path(nodes[0], &path);
 	while (bottleneck > 0) {
 		update_capacity(nodes[0], path, bottleneck);
+		// push in to collection
 		collection = malloc(sizeof(struct Path_collection));
 		collection->bottleneck = bottleneck;
 		collection->path = path;
 		collection->next = path_collection;
 		path_collection = collection;
+
 		path = NULL;
 		bottleneck = find_path(nodes[0], &path);
 	}
@@ -184,7 +190,7 @@ void print_paths() {
 	struct Path *path;
 	while (collection) {
 		path = collection->path;
-		printf("Flow amount: %d\n\t", collection->bottleneck);
+		printf("Flow amount: %d\n\t0 ->", collection->bottleneck);
 		flow += collection->bottleneck;
 		while (path) {
 			printf(" %d ", path->edge->node->id);
