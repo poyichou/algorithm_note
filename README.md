@@ -49,6 +49,6 @@
     └── queue.c
 ```
 # To run:  
-running `make` at root directory would generate all excutable files in corresponding dirctory  
-just run any of them to see the result  
-## note: there would be no excutable files in tool/  
+Running `make` at root directory would generate all excutable files in corresponding dirctory.  
+Just run any of them to see the result  
+**Note: there would be no excutable files in tool/, files in tool/ are included by files in graph/**  
