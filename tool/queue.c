@@ -30,7 +30,11 @@ struct queue {
 };
 
 ssize_t queue_size(queue* this) {
-	return this->size;
+	ssize_t size;
+	pthread_mutex_lock(&this->m);
+	size = this->size;
+	pthread_mutex_unlock(&this->m);
+	return size;
 }
 
 queue *queue_create(ssize_t max_size) {
