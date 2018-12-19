@@ -13,9 +13,11 @@ int inter_inv(int rank[], int startidx, int middleidx, int endidx) {
 	int lidx = startidx, ridx = middleidx + 1;
 	int inv = 0;
 	for (int i = ridx; i <= endidx; i++) {
-		while(rank[lidx++] <= rank[i]);
+		while(lidx <= middleidx && rank[lidx] <= rank[i]) {
+			lidx++;
+		}
 		// the rest of them are greater than rank[i]
-		inv += endidx - lidx + 1;
+		inv += middleidx - lidx + 1;
 	}
 	return inv;
 }
