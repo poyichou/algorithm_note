@@ -66,7 +66,28 @@ void queue_destroy(queue *this) {
 
 void queue_push(queue *this, void *data) {
 	pthread_mutex_lock(&this->m);
+	/*
+	 * wrap pthread_cond_wait() in while loop instead of if-condition since
+	 * pthread_cond_wait() might wake up resulted from certain wake-up signal on multi-cpu systems
+	 * */
 	while(this->max_size > 0 && this->size >= this->max_size){
+		/*
+		 * similar actions to pthread_cond_wait():
+		 *	 while(1) {
+		 *		 if (singaled) {
+		 *			 break;
+		 *		 } else {
+		 *			 pthread_mutex_unlock(m);
+		 *			 sleep();
+		 *			 pthread_mutex_lock(m);
+		 *		 }
+		 *	 }
+		 * or
+		 *	 pthread_mutex_unlock(m);
+		 *	 sleep_until_signaled();
+		 *	 pthread_mutex_lock(m);
+		 *
+		 * */
 		pthread_cond_wait(&this->cv, &this->m);
 		if(this->max_size > 0 && this->size < this->max_size){
 			pthread_cond_signal(&this->cv);
@@ -85,6 +106,9 @@ void queue_push(queue *this, void *data) {
 	this->tail->data = data;
 	this->size++;
 	if(this->size == 1){
+		/*
+		 * wake an arbitrary thread up, see also pthread_cond_broadcast()
+		 * */
 		pthread_cond_signal(&this->cv);
 	}
 	pthread_mutex_unlock(&this->m);
